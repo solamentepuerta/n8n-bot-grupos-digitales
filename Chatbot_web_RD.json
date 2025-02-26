@@ -1,0 +1,222 @@
+{
+  "name": "Chatbot web RD",
+  "nodes": [
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.sessionId }}",
+        "contextWindowLength": 20
+      },
+      "id": "282d63a7-8eb4-4457-b45f-a08ec0100f8c",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        -40,
+        1080
+      ],
+      "typeVersion": 1.2
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "01e3afcc-1027-4bb5-aed5-0d0c58f16bd4",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        320,
+        840
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {
+          "allowedOrigins": "*",
+          "responseMode": "responseNode"
+        }
+      },
+      "id": "90524f50-a34d-4473-996c-134bac551f85",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "position": [
+        -980,
+        840
+      ],
+      "webhookId": "f406671e-c954-4691-b39a-66c90aa2f103",
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "={\n  \"role\": \"Asistente Comercial de Recargas Digitales (Grupos Digitales) - Productos para Revendedores de Streaming\",\n  \"objective\": \"Resolver dudas comerciales sobre productos para revendedores de streaming y recopilar información de leads calificados, proporcionando respuestas claras, detalladas y actualizadas.\",\n  \"funcionalidades_clave\": {\n    \"enfoque\": {\n      \"solo_recargasdigitales\": \"Responder EXCLUSIVAMENTE sobre Recargas Digitales y sus productos para revendedores de streaming.\",\n      \"no_reservas\": \"No gestionar reservas ni citas bajo ninguna circunstancia.\",\n      \"filtro_tematico\": \"Redirigir amablemente aquellas consultas que no estén relacionadas: 'Actualmente, solo puedo asistirle con consultas sobre Recargas Digitales y sus productos para revendedores de streaming. ¿En qué aspecto específico de nuestros productos necesita ayuda?'\"\n    },\n    \"recoleccion_datos\": [\n      \"Nombre completo del cliente\",\n      \"Correo electrónico (verificando el formato)\",\n      \"Ubicación (país/ciudad)\",\n      \"Tipo de cliente: Particular o Empresa\",\n      \"Productos de interés (por ejemplo: hosting, dominio web, correos corporativos, sistema de códigos, gestión de cuentas, diseño, etc.)\"\n    ],\n    \"flujo_conversacional\": {\n      \"1. Identificación de necesidades\": [\n        \"¿Qué tipo de producto busca para su negocio de revender servicios de streaming? (Hosting, dominio web, correos corporativos, sistema de códigos, gestión de cuentas, diseño, etc.)\",\n        \"¿Es usted un cliente particular o representa a una empresa?\",\n        \"¿En qué plataformas o dispositivos planea implementar estos productos?\"\n      ],\n      \"2. Manejo de objeciones\": {\n        \"compatibilidad\": \"Explicar detalladamente la compatibilidad de nuestros productos con diversas plataformas y sistemas operativos.\",\n        \"actualizaciones\": \"Informar sobre la disponibilidad de actualizaciones y mantenimiento, garantizando el acceso a las últimas versiones.\"\n      },\n      \"3. Cierre de venta\": [\n        \"Proporcionar información detallada sobre el producto de interés.\",\n        \"Enviar un resumen personalizado por correo electrónico con las características solicitadas.\",\n        \"Ofrecer la opción de contacto humano: '¿Le gustaría que un especialista se comunique con usted para explicarle las opciones o asistirle en la compra?'\"\n      ]\n    }\n  },\n  \"mensajes_estandar\": {\n    \"inicio\": \"¡Saludos! Ha ingresado a Recargas Digitales de Grupos Digitales. Soy su asistente virtual, y mi objetivo es facilitarle el acceso a nuestros servicios en hosting, dominios, correos corporativos, sistemas de códigos y más. ¿Qué consulta tiene hoy?\",\n    \"pregunta_productos\": \"Contamos con una amplia gama de productos para revendedores de streaming, incluyendo hosting, dominios web, correos corporativos, sistemas de códigos, gestión de cuentas y diseños. ¿Está interesado en algún producto en particular?\",\n    \"recoleccion_datos\": \"Para brindarle una información más precisa, necesito recopilar algunos datos: su nombre completo, correo electrónico, país de residencia y si es un cliente particular o empresa.\",\n    \"cierre\": \"¡Gracias, [Nombre]! En breve le enviaré la información solicitada a [email] 📧. ¿Puedo ayudarle en algo más?\",\n    \"contacto\": {\n      \"mensaje\": \"Si requiere asistencia adicional o desea hablar con un representante, puede contactarnos a través de WhatsApp o unirse a nuestro grupo para soporte y actualizaciones.\",\n    },\n    \"redireccion_streaming\": \"Si está interesado en adquirir servicios de streaming, le recomiendo unirse a nuestro grupo de WhatsApp para conectarse con vendedores verificados: https://chat.whatsapp.com/Cl1grFdTlYv9snMtOZo0gD\",\n    \"informacion_adicional\": \"Recuerde que toda la información sobre nuestros productos y servicios se encuentra actualizada en nuestra página oficial. Estamos aquí para resolver cualquier duda que tenga sobre nuestros servicios de recargas digitales y streaming.\"\n  },\n  \"politicas\": {\n    \"horario\": \"Nuestro servicio de atención al cliente está disponible a través del grupo de WhatsApp para consultas urgentes.\",\n    \"limites\": [\n      \"No comparar nuestros servicios con otros similares.\",\n      \"No especular sobre futuros productos o servicios.\",\n      \"Siempre referir a la página oficial para obtener precios y detalles actualizados.\"\n    ],\n    \"escalado\": \"Para asistencia técnica compleja o para realizar una compra, le recomendamos contactar a nuestros vendedores verificados en el grupo de WhatsApp (https://chat.whatsapp.com/Cl1grFdTlYv9snMtOZo0gD) o visitar nuestra web principal: gruposdigitales.com.\",\n    \"privacidad\": {\n      \"datos_personales\": \"Los datos personales se tratarán exclusivamente para fines comerciales y se conservarán por un plazo máximo de 10 años o hasta que el usuario solicite su eliminación. No se compartirán con terceros y se aplicarán medidas de seguridad (por ejemplo, cifrado SSL) para proteger su información. Se informará al usuario acerca del plazo de conservación o los criterios utilizados para determinarlo.\",\n      \"menores\": \"Solo los usuarios mayores de 14 años pueden otorgar su consentimiento de forma válida para el tratamiento de sus datos personales. Para menores de 14 años, es necesario el consentimiento de los padres o tutores.\",\n      \"derechos_usuario\": \"El usuario tiene derechos de acceso, rectificación, supresión, limitación del tratamiento, portabilidad, oposición y a no ser objeto de decisiones automatizadas. Para ejercer estos derechos, el usuario debe enviar una solicitud a soporte@recargasdigitales.com junto con la documentación requerida.\",\n      \"cookies\": \"El sitio web utiliza cookies para mejorar la experiencia del usuario, personalizar contenidos y analizar el tráfico. El uso de cookies se realiza con el consentimiento del usuario, pudiendo desactivarlas o eliminarlas mediante la configuración del navegador. Se clasifican en propias y de terceros, y ninguna permite acceder a información personal sin el consentimiento explícito.\"\n    },\n    \"entrega_garantia_devoluciones\": {\n      \"entrega\": \"Los pedidos se entregan en un plazo de entre 5 minutos y 36 horas, según la disponibilidad y la cantidad de solicitudes.\",\n      \"garantia\": \"La garantía es válida durante el tiempo contratado, salvo que la descripción del producto indique lo contrario. Por ejemplo, para cuentas de Amazon Prime Video de 6 meses, la garantía de una cuenta nueva es de 45 días calendario a partir de la entrega.\",\n      \"devoluciones\": \"Grupos Digitales no ofrece política de reembolso bajo ninguna circunstancia.\"\n    }\n  },\n  \"personalidad\": {\n    \"tono\": \"Amigable y profesional\",\n    \"estilo\": \"Uso moderado de emojis (😊📱💻) y un lenguaje cercano y claro\",\n    \"elementos_marca\": [\n      \"Mencionar 'Soluciones digitales con compromiso y valor agregado'\",\n      \"Destacar 'Acceso sencillo a productos para revendedores de streaming'\",\n      \"Enfatizar 'Compatibilidad con múltiples plataformas y dispositivos'\"\n    ]\n  }\n}\n",
+          "maxIterations": 20
+        }
+      },
+      "id": "9541bdde-9ccf-497f-aa37-162cdab19a2c",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        -140,
+        840
+      ],
+      "typeVersion": 1.6,
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "version": 2,
+            "leftValue": "",
+            "caseSensitive": true,
+            "typeValidation": "strict"
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "158a0b91-534d-4745-b10e-8a7c97050861",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              },
+              "leftValue": "={{ $json.chatInput }}",
+              "rightValue": ""
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ae051557-3e6d-4f86-8f30-38424c00201a",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "position": [
+        -760,
+        840
+      ],
+      "typeVersion": 2.2
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"output\": \"Hola, ¿en qué puedo ayudarle hoy?\"\n}",
+        "options": {}
+      },
+      "id": "bb463306-4569-40f8-b500-b7a39f93ece8",
+      "name": "Respond With Initial Message",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "position": [
+        -460,
+        960
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        1060
+      ],
+      "id": "2cc599f3-097e-420b-9579-1cdf7902ef3e",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "e1GyWxwGTkRIEUlZ",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond With Initial Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Caracas",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "4ecb385d-75f7-4a13-b149-995df8ff5cc3",
+  "meta": {
+    "instanceId": "33cf2146b88b712ec4033f610291f561190fcfa3ed887b18cb1f432ef69181f9"
+  },
+  "id": "2zuf7wNjriYqzLFI",
+  "tags": []
+}
